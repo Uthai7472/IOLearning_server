@@ -7,6 +7,9 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
+let interval;
+let currentRandomNumber = 0;
+
 // Allow requests from your Netlify frontend URL
 const allowedOrigins = ['https://io-learning-client.netlify.app/', 'http://localhost:5173'];  // Add your Netlify URL here
 
@@ -39,7 +42,18 @@ io.on('connection', (socket) => {
         socket.emit('add', `Server received from client: ${sumValue}`);
 
         socket.broadcast.emit('add', `Server received from client: ${sumValue}`);
-    })
+    });
+
+    // io.emit('randomNumber', currentRandomNumber);
+    // Start emitting random numbers every second
+    console.log("Start random");
+    if (!interval) {
+        interval = setInterval(() => {
+            currentRandomNumber = Math.floor(Math.random() * 100);
+            io.emit('randomNumber', currentRandomNumber);
+            console.log('Current random number:', currentRandomNumber);
+        }, 1000); // Emit every 1 second (1000 milliseconds)
+    }
 
     socket.on('disconnect', () => {
         console.log('A client disconnected');
