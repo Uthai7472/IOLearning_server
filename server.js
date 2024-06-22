@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 // Allow requests from your Netlify frontend URL
-const allowedOrigins = ['https://your-netlify-site-name.netlify.app', 'http://localhost:5173'];  // Add your Netlify URL here
+const allowedOrigins = ['https://io-learning-client.netlify.app/', 'http://localhost:5173'];  // Add your Netlify URL here
 
 app.use(cors({
     origin: function (origin, callback) {
